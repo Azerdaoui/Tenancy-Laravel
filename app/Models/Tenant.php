@@ -11,4 +11,11 @@ use Stancl\Tenancy\Database\Models\Tenant as ModelsTenant;
 class Tenant extends ModelsTenant implements TenantWithDatabase
 {
     use HasFactory, HasDomains, HasDatabase;
+
+    public static function booted()
+    {
+        static::creating(function ($tenant) {
+            $tenant->password = bcrypt($tenant->password);
+        });
+    }
 }
