@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RegistredTenantController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,4 +18,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-require __DIR__.'/auth.php';
+Route::get('register', [RegistredTenantController::class, 'create']);
+Route::post('/register', [RegistredTenantController::class, 'store'])->name('register.tenant');
