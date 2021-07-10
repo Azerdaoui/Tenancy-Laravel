@@ -25,11 +25,16 @@ use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 |
 */
 
-Route::middleware([
-    'web',
-    InitializeTenancyByDomain::class,
-    PreventAccessFromCentralDomains::class,
-])->group(function () {
+
+Route::group([
+    'as' => 'tenant.', 
+    'middleware' => [
+        'web',
+        InitializeTenancyByDomain::class,
+        PreventAccessFromCentralDomains::class,
+    ],
+], function() {
+
     Route::get('/', function () {
         return 'This is your multi-tenant application. The id of the current tenant is ' . tenant('id');
     });
@@ -84,4 +89,15 @@ Route::middleware([
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
                     ->middleware('auth')
                 ->name('logout');
+});
+
+
+Route::middleware([
+    'web',
+    InitializeTenancyByDomain::class,
+    PreventAccessFromCentralDomains::class,
+])->group(function () {
+
+
+    
 });
